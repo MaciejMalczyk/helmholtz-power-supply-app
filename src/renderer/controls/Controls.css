@@ -1,0 +1,74 @@
+.Controls {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+  min-width: 512px;
+  min-height: 296px;
+}
+.ControlsContainer {
+  margin: auto;
+  display: flex;
+  gap: 24px;
+}
+.ControlsVoltage {
+  width: 14vw;
+  height: 50vh;
+  min-width: 160px;
+  min-height: 366px;
+  max-height: 424px;
+  max-width: 224px;
+  background-color: #444444;
+  border-radius: 16px;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin: auto;
+}
+.ControlsAmperage {
+  width: 14vw;
+  height: 50vh;
+  min-width: 160px;
+  min-height: 366px;
+  max-height: 424px;
+  max-width: 224px;
+  background-color: #444444;
+  border-radius: 16px;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin: auto;
+}
+.ControlsButtons {
+  height: 50vh;
+  min-width: 160px;
+  min-height: 366px;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin: auto;
+}
+.ControlsButtons > div {
+  display: flex;
+  gap: 24px;
+}
+.ControlsButtonsFiller {
+  grid-row: 1/2;
+  height: 80px;
+}
+.ControlsButtonsMid {
+  grid-row: 2/3;
+}
+.ControlsButtonsLarge {
+  grid-row: 3/4;
+}
+.ControlsButtonsSmall {
+  grid-row: 4/5;
+}

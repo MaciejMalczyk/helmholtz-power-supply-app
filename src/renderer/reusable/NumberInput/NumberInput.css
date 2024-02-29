@@ -1,0 +1,25 @@
+.NumberInput {
+  background-color: #ffffff;
+  border-radius: 24px;
+  display: flex;
+  min-width: 80px;
+  min-height: 80px;
+  font-family: JosefinSans-Bold;
+}
+.NumberInputValue {
+  margin: auto auto auto 8%;
+  border: none;
+  font-family: JosefinSans-Bold;
+  text-align: center;
+  width: 80%;
+}
+.NumberInputValue::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.NumberInputValue:focus {
+  outline-width: 0;
+}
+.NumberInputUnit {
+  margin: auto auto auto 0px;
+}

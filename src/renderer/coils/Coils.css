@@ -1,0 +1,32 @@
+.CoilsBackground {
+  background-color: #444444;
+  border-radius: 32px;
+  width: 90vh;
+  height: 90vh;
+  min-width: 488px;
+  min-height: 488px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.CoilsContainer {
+  width: 90%;
+  height: 90%;
+  position: relative;
+}
+.CoilsValueSmall {
+  position: absolute;
+  top: 76%;
+  left: 41%;
+}
+.CoilsValueMid {
+  position: absolute;
+  top: 5%;
+  left: 2%;
+}
+.CoilsValueLarge {
+  position: absolute;
+  top: 41%;
+  left: 11%;
+}
+

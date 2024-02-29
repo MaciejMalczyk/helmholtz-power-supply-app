@@ -1,0 +1,15 @@
+.NumberDisplay {
+  background-color: #ffffff;
+  border-radius: 16px;
+  display: flex;
+  min-width: 48px;
+  min-height: 24px;
+  font-family: JosefinSans-Bold;
+}
+.NumberDisplayValue {
+  margin: auto 2px auto auto;
+}
+.NumberDisplayUnit {
+  margin: auto auto auto 0px;
+}
+
