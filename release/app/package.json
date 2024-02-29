@@ -1,12 +1,12 @@
 {
-  "name": "electron-react-boilerplate",
-  "version": "4.6.0",
+  "name": "HelmholtzControl",
+  "version": "1.0.0",
   "description": "A foundation for scalable desktop apps",
   "license": "MIT",
   "author": {
-    "name": "Electron React Boilerplate Maintainers",
-    "email": "electronreactboilerplate@gmail.com",
-    "url": "https://github.com/electron-react-boilerplate"
+    "name": "Maciej Malczyk",
+    "email": "maciej.henryk.malczyk@gmail.com",
+    "url": "https://github.com/wujekbrezniew/helmholtz-power-supply-app"
   },
   "main": "./dist/main/main.js",
   "scripts": {

@@ -1,7 +1,7 @@
 import React, { createRef, useEffect, RefObject, useState } from 'react';
-import CoilMid from '../../../assets/icons/CoilMid.svg';
-import CoilLarge from '../../../assets/icons/CoilLarge.svg';
-import CoilSmall from '../../../assets/icons/CoilSmall.svg';
+import CoilMid from '../../../assets/svg/CoilMid.svg';
+import CoilLarge from '../../../assets/svg/CoilLarge.svg';
+import CoilSmall from '../../../assets/svg/CoilSmall.svg';
 import CoilsValues from './CoilsValues.tsx';
 import Store from '../store/Store.tsx';
 import './Coils.css';

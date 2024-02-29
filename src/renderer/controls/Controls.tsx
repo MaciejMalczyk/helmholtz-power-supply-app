@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import IconBox from '../reusable/IconBox/IconBox.tsx';
 import NumberInput from '../reusable/NumberInput/NumberInput.tsx';
 import IconButton from '../reusable/IconButton/IconButton.tsx';
-import VoltageIcon from '../../../assets/icons/alpha-v-circle.svg';
-import AmperageIcon from '../../../assets/icons/alpha-a-circle.svg';
-import ArrowRightIcon from '../../../assets/icons/arrow-right-thick.svg';
-import PlayIcon from '../../../assets/icons/play.svg';
+import VoltageIcon from '../../../assets/svg/alpha-v-circle.svg';
+import AmperageIcon from '../../../assets/svg/alpha-a-circle.svg';
+import ArrowRightIcon from '../../../assets/svg/arrow-right-thick.svg';
+import PlayIcon from '../../../assets/svg/play.svg';
 import Store from '../store/Store.tsx';
 import './Controls.css'
 
@@ -34,19 +34,19 @@ function Controls() {
             width={160}
             height={80}
             max={20}
-            param='midVoltageValueSend'
+            param={Store['midVoltageValueSend']}
           ></NumberInput>
           <NumberInput
             width={160}
             height={80}
             max={20}
-            param='largeVoltageValueSend'
+            param={Store['largeVoltageValueSend']}
           ></NumberInput>
           <NumberInput
             width={160}
             height={80}
             max={20}
-            param='smallVoltageValueSend'
+            param={Store['smallVoltageValueSend']}
           ></NumberInput>
         </div>
         <div className="ControlsAmperage">
@@ -60,21 +60,21 @@ function Controls() {
             height={80}
             max={10}
             step={0.0001}
-            param='midAmperageValueSend'
+            param={Store['midAmperageValueSend']}
           ></NumberInput>
           <NumberInput
             width={160}
             height={80}
             step={0.0001}
             max={10}
-            param='largeAmperageValueSend'
+            param={Store['largeAmperageValueSend']}
           ></NumberInput>
           <NumberInput
             width={160}
             height={80}
             step={0.0001}
             max={10}
-            param='smallAmperageValueSend'
+            param={Store['smallAmperageValueSend']}
           ></NumberInput>
         </div>
         <div className="ControlsButtons">
@@ -103,10 +103,10 @@ function Controls() {
               onclick={async ()=>{
                 if (midStatus === false) {
                   const res = await window.electronAPI.powerSupplyControlSend(["mid", "enable"]);
-                  setMidStatus(res);
+                  await setMidStatus(res);
                 } else if (midStatus === true) {
                   const res = await window.electronAPI.powerSupplyControlSend(["mid", "disable"]);
-                  setMidStatus(res);
+                  await setMidStatus(res);
                 }
               }}
             >
@@ -119,8 +119,8 @@ function Controls() {
               icon={ArrowRightIcon}
               color="#008280"
               onMouseColor="#9cd3d0"
-              onclick={()=>{
-                console.log("xd");
+              onclick={async ()=>{
+                const res = await window.electronAPI.powerSupplyControlSend(["large", "set", Store['largeVoltageValueSend'].value, Store['largeAmperageValueSend'].value]);
               }}
             >
             </IconButton>
@@ -131,8 +131,15 @@ function Controls() {
               color="#008280"
               onMouseColor="#9cd3d0"
               enableColor="#9cd3d0"
-              onclick={()=>{
-                console.log("xd");
+              enableSignal={largeStatus}
+              onclick={async ()=>{
+                if (largeStatus === false) {
+                  const res = await window.electronAPI.powerSupplyControlSend(["large", "enable"]);
+                  await setLargeStatus(res);
+                } else if (largeStatus === true) {
+                  const res = await window.electronAPI.powerSupplyControlSend(["large", "disable"]);
+                  await setLargeStatus(res);
+                }
               }}
             >
             </IconButton>
@@ -144,8 +151,8 @@ function Controls() {
               icon={ArrowRightIcon}
               color="#c22600"
               onMouseColor="#e58e7a"
-              onclick={()=>{
-                console.log("xd");
+              onclick={async ()=>{
+                const res = await window.electronAPI.powerSupplyControlSend(["small", "set", Store['smallVoltageValueSend'].value, Store['smallAmperageValueSend'].value]);
               }}
             >
             </IconButton>
@@ -156,8 +163,15 @@ function Controls() {
               color="#c22600"
               onMouseColor="#e58e7a"
               enableColor="#e58e7a"
-              onclick={()=>{
-                console.log("xd");
+              enableSignal={smallStatus}
+              onclick={async ()=>{
+                if (smallStatus === false) {
+                  const res = await window.electronAPI.powerSupplyControlSend(["small", "enable"]);
+                  await setSmallStatus(res);
+                } else if (smallStatus === true) {
+                  const res = await window.electronAPI.powerSupplyControlSend(["small", "disable"]);
+                  await setSmallStatus(res);
+                }
               }}
             >
             </IconButton>
