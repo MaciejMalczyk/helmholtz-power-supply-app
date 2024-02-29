@@ -1,6 +1,8 @@
 import React, { createRef, useEffect, RefObject, useState } from 'react';
 import Store from '../../store/Store.tsx';
+import Store from '../../store/State.tsx';
 import './NumberInput.css'
+
 
 const NumberInput = ( props: {
   color: string,
@@ -10,7 +12,7 @@ const NumberInput = ( props: {
   max: number,
   min: number,
   step: number,
-  param: string,
+  param: State,
 }) => {
 
   const NumberInputRef: RefObject<HTMLDivElement> = createRef();
@@ -21,8 +23,8 @@ const NumberInput = ( props: {
 
   useEffect(()=>{
 
-    window.addEventListener(Store[props.param].event, ()=>{
-      setValueInput(Store[props.param].value);
+    window.addEventListener(props.param.event, ()=>{
+      setValueInput(props.param.value);
     })
 
     if (props.value) {
@@ -59,7 +61,7 @@ const NumberInput = ( props: {
             if ((el.target.value.toString().split('.')[1] || "").length <= stepDigits) {
               if (el.target.value.toString().length < 4+stepDigits) {
                 setValueInput(el.target.value);
-                Store[props.param].setValue(el.target.value);
+                props.param.setValue(el.target.value);
               }
             }
           }

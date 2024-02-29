@@ -108,6 +108,8 @@ const createWindow = async () => {
     show: false,
     width: 1200,
     height: 600,
+    minWidth: 1200,
+    minHeight: 600,
     icon: getAssetPath('icon.png'),
     webPreferences: {
       preload: app.isPackaged
@@ -133,8 +135,10 @@ const createWindow = async () => {
     mainWindow = null;
   });
 
-  const menuBuilder = new MenuBuilder(mainWindow);
-  menuBuilder.buildMenu();
+  //hide menu instead of showing one from builder
+  mainWindow.setMenu(null);
+  // const menuBuilder = new MenuBuilder(mainWindow);
+  // menuBuilder.buildMenu();
 
   // Open urls in the user's browser
   mainWindow.webContents.setWindowOpenHandler((edata) => {
