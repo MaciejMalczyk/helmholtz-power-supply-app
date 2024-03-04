@@ -30,7 +30,9 @@ let mainWindow: BrowserWindow | null = null;
 
 
 let powerSupplies = {
-  "mid": new powerSupplyManager("192.168.88.201"),
+  "small": new powerSupplyManager("192.168.88.201"),
+  "large": new powerSupplyManager("192.168.88.202"),
+  "mid": new powerSupplyManager("192.168.88.203"),
 }
 
 async function handlePowerSuppliesControl(e, data) {
@@ -52,15 +54,26 @@ async function handleInit(e, data) {
       initVoltage: number;
       initAmperage: number;
       initEnabled: boolean;
+      initVisible: boolean;
     }
   }
 
   let returnData: ReturnDataInterface = {};
   for (let ps in powerSupplies) {
-    returnData[ps] = {
-      initVoltage: await powerSupplies[ps].getSetVoltage(),
-      initAmperage: await powerSupplies[ps].getSetAmperage(),
-      initEnabled: await powerSupplies[ps].getEnabled(),
+    if (await powerSupplies[ps].getEnabled() === -1) {
+      returnData[ps] = {
+        initVoltage: 0,
+        initAmperage: 0,
+        initEnabled: false,
+        initVisible: false,
+      }
+    } else {
+      returnData[ps] = {
+        initVoltage: await powerSupplies[ps].getSetVoltage(),
+        initAmperage: await powerSupplies[ps].getSetAmperage(),
+        initEnabled: await powerSupplies[ps].getEnabled(),
+        initVisible: true,
+      }
     }
   }
   return returnData;
@@ -147,9 +160,15 @@ const createWindow = async () => {
   });
 
   setInterval(async ()=>{
-    let midV = await powerSupplies["mid"].getVoltage();
-    let midA = await powerSupplies["mid"].getAmperage();
-    mainWindow.webContents.send("ipc-power-supply-values", ["mid", midV, midA]);
+    for (let ps in powerSupplies) {
+      if (await powerSupplies[ps].getVoltage() >= 0.0) {
+        mainWindow.webContents.send("ipc-power-supply-values", [
+          ps,
+          await powerSupplies[ps].getVoltage(),
+          await powerSupplies[ps].getAmperage(),
+        ]);
+      }
+    }
   },500);
 
   // Remove this if your app does not use auto updates

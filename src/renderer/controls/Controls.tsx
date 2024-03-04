@@ -14,10 +14,28 @@ function Controls() {
   const [midStatus, setMidStatus] = useState(false);
   const [smallStatus, setSmallStatus] = useState(false);
   const [largeStatus, setLargeStatus] = useState(false);
+  const [midVisible, setMidVisible] = useState(false);
+  const [smallVisible, setSmallVisible] = useState(false);
+  const [largeVisible, setLargeVisible] = useState(false);
 
   useEffect(() => {
     window.addEventListener(Store['midEnabled'].event, ()=>{
       setMidStatus(Store['midEnabled'].value);
+    })
+    window.addEventListener(Store['midVisible'].event, ()=>{
+      setMidVisible(Store['midVisible'].value);
+    })
+    window.addEventListener(Store['largeEnabled'].event, ()=>{
+      setLargeStatus(Store['largeEnabled'].value);
+    })
+    window.addEventListener(Store['largeVisible'].event, ()=>{
+      setLargeVisible(Store['largeVisible'].value);
+    })
+    window.addEventListener(Store['smallEnabled'].event, ()=>{
+      setSmallStatus(Store['smallEnabled'].value);
+    })
+    window.addEventListener(Store['smallVisible'].event, ()=>{
+      setSmallVisible(Store['smallVisible'].value);
     })
   });
 
@@ -87,6 +105,7 @@ function Controls() {
               icon={ArrowRightIcon}
               color="#535e8c"
               onMouseColor="#a1a1f1"
+              enabled={midVisible}
               onclick={async ()=>{
                 const res = await window.electronAPI.powerSupplyControlSend(["mid", "set", Store['midVoltageValueSend'].value, Store['midAmperageValueSend'].value]);
               }}
@@ -100,6 +119,7 @@ function Controls() {
               onMouseColor="#a1a1f1"
               enableColor="#a1a1f1"
               enableSignal={midStatus}
+              enabled={midVisible}
               onclick={async ()=>{
                 if (midStatus === false) {
                   const res = await window.electronAPI.powerSupplyControlSend(["mid", "enable"]);
@@ -119,6 +139,7 @@ function Controls() {
               icon={ArrowRightIcon}
               color="#008280"
               onMouseColor="#9cd3d0"
+              enabled={largeVisible}
               onclick={async ()=>{
                 const res = await window.electronAPI.powerSupplyControlSend(["large", "set", Store['largeVoltageValueSend'].value, Store['largeAmperageValueSend'].value]);
               }}
@@ -132,6 +153,7 @@ function Controls() {
               onMouseColor="#9cd3d0"
               enableColor="#9cd3d0"
               enableSignal={largeStatus}
+              enabled={largeVisible}
               onclick={async ()=>{
                 if (largeStatus === false) {
                   const res = await window.electronAPI.powerSupplyControlSend(["large", "enable"]);
@@ -151,6 +173,7 @@ function Controls() {
               icon={ArrowRightIcon}
               color="#c22600"
               onMouseColor="#e58e7a"
+              enabled={smallVisible}
               onclick={async ()=>{
                 const res = await window.electronAPI.powerSupplyControlSend(["small", "set", Store['smallVoltageValueSend'].value, Store['smallAmperageValueSend'].value]);
               }}
@@ -164,6 +187,7 @@ function Controls() {
               onMouseColor="#e58e7a"
               enableColor="#e58e7a"
               enableSignal={smallStatus}
+              enabled={smallVisible}
               onclick={async ()=>{
                 if (smallStatus === false) {
                   const res = await window.electronAPI.powerSupplyControlSend(["small", "enable"]);

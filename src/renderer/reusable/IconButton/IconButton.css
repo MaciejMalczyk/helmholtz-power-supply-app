@@ -1,11 +1,12 @@
 .IconButton {
   width: min-content;
-  background-color: white;
+  background-color: #444444;
   border-radius: 24px;
   display: flex;
   flex-flow: column;
   justify-content: center;
   align-items: center;
+  transition: background-color 0.5s;
 }
 .IconButtonIcon {
 }

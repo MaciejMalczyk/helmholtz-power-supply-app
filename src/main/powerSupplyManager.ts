@@ -9,12 +9,15 @@ class powerSupplyManager {
   }
 
   private async sendScpiMsg(command: string) {
-    const { stdout, stderr } = await exec(`lxi scpi -a ${this.ipAddress} ${command}`);
-    if (stderr) {
-      console.log(stderr);
-      return;
+    try {
+      const { stdout, stderr } = await exec(`lxi scpi -a ${this.ipAddress} ${command}`);
+      if (stderr) {
+        return -1;
+      }
+      return stdout;
+    } catch {
+      return -1;
     }
-    return stdout;
   }
 
   async getVoltage() {
@@ -33,6 +36,8 @@ class powerSupplyManager {
       return false;
     } else if (res === "ON\n") {
       return true;
+    } else {
+      return res;
     }
   }
 

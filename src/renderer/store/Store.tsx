@@ -20,6 +20,9 @@ let Store: StoreInterface = {
   'midEnabled': new State(false),
   'largeEnabled': new State(false),
   'smallEnabled': new State(false),
+  'midVisible': new State(false),
+  'largeVisible': new State(false),
+  'smallVisible': new State(false),
 }
 
 export default Store;
