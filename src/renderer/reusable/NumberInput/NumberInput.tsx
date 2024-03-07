@@ -1,78 +1,91 @@
-import React, { createRef, useEffect, RefObject, useState } from 'react';
-import Store from '../../store/Store.tsx';
-import Store from '../../store/State.tsx';
-import './NumberInput.css'
+import React, { useRef, useEffect, useState } from 'react';
+import State from '../../store/State';
+import './NumberInput.css';
 
+interface NumberInputInterface {
+  color: string;
+  unit: string;
+  width: number;
+  height: number;
+  max: number;
+  min: number;
+  step: number;
+  param: State;
+}
 
-const NumberInput = ( props: {
-  color: string,
-  unit: string,
-  width: number,
-  height: number,
-  max: number,
-  min: number,
-  step: number,
-  param: State,
-}) => {
-
-  const NumberInputRef: RefObject<HTMLDivElement> = createRef();
-  const NumberInputValueRef: RefObject<HTMLDivElement> = createRef();
-  const NumberInputUnitRef: RefObject<HTMLDivElement> = createRef();
+function NumberInput({
+  color,
+  unit,
+  width,
+  height,
+  max,
+  min,
+  step,
+  param,
+}: NumberInputInterface) {
+  const NumberInputRef = useRef<HTMLDivElement>(null);
+  const NumberInputValueRef = useRef<HTMLInputElement>(null);
+  const NumberInputUnitRef = useRef<HTMLDivElement>(null);
 
   const [valueInput, setValueInput] = useState(0.0);
 
-  useEffect(()=>{
+  useEffect(() => {
+    window.addEventListener(param!.event, () => {
+      setValueInput(param!.value);
+    });
 
-    window.addEventListener(props.param.event, ()=>{
-      setValueInput(props.param.value);
-    })
-
-    if (props.value) {
-      NumberInputValueRef.current!.innerText = `${props.value}`;
+    if (color) {
+      NumberInputRef.current!.style.backgroundColor = color;
     }
-    if (props.color) {
-      NumberInputRef.current!.style.backgroundColor = props.color;
+    if (unit) {
+      NumberInputUnitRef.current!.innerText = `${unit}`;
     }
-    if (props.unit) {
-      NumberInputUnitRef.current!.innerText = `${props.unit}`;
+    if (width) {
+      NumberInputRef.current!.style.width = `${width}px`;
     }
-    if (props.width) {
-      NumberInputRef.current!.style.width = `${props.width}px`;
+    if (height) {
+      NumberInputRef.current!.style.height = `${height}px`;
+      NumberInputRef.current!.style.fontSize = `${
+        height / 2.5 > 12 ? height / 2.5 : 12
+      }px`;
+      NumberInputValueRef.current!.style.fontSize = `${
+        height / 2.5 > 12 ? height / 2.5 : 12
+      }px`;
     }
-    if (props.height) {
-      NumberInputRef.current!.style.height = `${props.height}px`;
-    }
-    NumberInputRef.current!.style.fontSize = `${((props.height/2.5 > 12) ? props.height/2.5 : 12)}px`;
-    NumberInputValueRef.current!.style.fontSize = `${((props.height/2.5 > 12) ? props.height/2.5 : 12)}px`;
-  })
+  });
 
   return (
     <div className="NumberInput" ref={NumberInputRef}>
       <input
         type="number"
-        min={props.min || 0}
-        max={props.max || 20}
-        step={props.step || 0.001}
+        min={min || 0}
+        max={max || 20}
+        step={step || 0.001}
         className="NumberInputValue"
         value={valueInput}
         onChange={(el) => {
-          let stepDigits = (el.target.step.toString().split('.')[1] || "").length;
-          if (el.target.value <= Number(el.target.max) && el.target.value >= Number(el.target.min)) {
-            if ((el.target.value.toString().split('.')[1] || "").length <= stepDigits) {
-              if (el.target.value.toString().length < 4+stepDigits) {
-                setValueInput(el.target.value);
-                props.param.setValue(el.target.value);
+          const stepDigits = (el.target.step.toString().split('.')[1] || '')
+            .length;
+          if (
+            Number(el.target.value) <= Number(el.target.max) &&
+            Number(el.target.value) >= Number(el.target.min)
+          ) {
+            if (
+              (el.target.value.toString().split('.')[1] || '').length <=
+              stepDigits
+            ) {
+              if (el.target.value.toString().length < 4 + stepDigits) {
+                setValueInput(Number(el.target.value));
+                param!.setValue(el.target.value);
               }
             }
           }
         }}
         ref={NumberInputValueRef}
       />
-      <div className="NumberInputUnit" ref={NumberInputUnitRef}>
-      </div>
+      <div className="NumberInputUnit" ref={NumberInputUnitRef} />
     </div>
-  )
+  );
 }
-
 
 export default NumberInput;

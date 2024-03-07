@@ -10,72 +10,60 @@
  */
 import path from 'path';
 import { app, BrowserWindow, shell, ipcMain } from 'electron';
-import { autoUpdater } from 'electron-updater';
-import log from 'electron-log';
-import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 import powerSupplyManager from './powerSupplyManager';
 
-// console.log('\x1b[37m\x1b[44m%s\x1b[0m' , d);
-
-class AppUpdater {
-  constructor() {
-    log.transports.file.level = 'info';
-    autoUpdater.logger = log;
-    autoUpdater.checkForUpdatesAndNotify();
-  }
-}
-
 let mainWindow: BrowserWindow | null = null;
 
-
-let powerSupplies = {
-  "small": new powerSupplyManager("192.168.88.201"),
-  "large": new powerSupplyManager("192.168.88.202"),
-  "mid": new powerSupplyManager("192.168.88.203"),
-}
+const powerSupplies = {
+  small: new powerSupplyManager('192.168.88.201'),
+  large: new powerSupplyManager('192.168.88.202'),
+  mid: new powerSupplyManager('192.168.88.203'),
+};
 
 async function handlePowerSuppliesControl(e, data) {
-  if (data[1] == "enable") {
+  if (data[1] === 'enable') {
     powerSupplies[data[0]].enable();
     return powerSupplies[data[0]].getEnabled();
-  } else if (data[1] == "disable") {
+  }
+  if (data[1] === 'disable') {
     powerSupplies[data[0]].disable();
     return powerSupplies[data[0]].getEnabled();
-  } else if (data[1] == "set") {
+  }
+  if (data[1] === 'set') {
     powerSupplies[data[0]].setVoltage(data[2]);
     powerSupplies[data[0]].setAmperage(data[3]);
   }
 }
 
-async function handleInit(e, data) {
+async function handleInit() {
   interface ReturnDataInterface {
     [key: string]: {
       initVoltage: number;
       initAmperage: number;
       initEnabled: boolean;
       initVisible: boolean;
-    }
+    };
   }
 
-  let returnData: ReturnDataInterface = {};
-  for (let ps in powerSupplies) {
-    if (await powerSupplies[ps].getEnabled() === -1) {
+  const returnData: ReturnDataInterface = {};
+  Object.keys(powerSupplies).forEach((ps) => {
+    if ((await powerSupplies[ps].getEnabled()) === -1) {
       returnData[ps] = {
         initVoltage: 0,
         initAmperage: 0,
         initEnabled: false,
         initVisible: false,
-      }
+      };
     } else {
       returnData[ps] = {
         initVoltage: await powerSupplies[ps].getSetVoltage(),
         initAmperage: await powerSupplies[ps].getSetAmperage(),
         initEnabled: await powerSupplies[ps].getEnabled(),
         initVisible: true,
-      }
+      };
     }
-  }
+  });
   return returnData;
 }
 
@@ -148,7 +136,7 @@ const createWindow = async () => {
     mainWindow = null;
   });
 
-  //hide menu instead of showing one from builder
+  // hide menu instead of showing one from builder
   mainWindow.setMenu(null);
   // const menuBuilder = new MenuBuilder(mainWindow);
   // menuBuilder.buildMenu();
@@ -159,21 +147,17 @@ const createWindow = async () => {
     return { action: 'deny' };
   });
 
-  setInterval(async ()=>{
-    for (let ps in powerSupplies) {
-      if (await powerSupplies[ps].getVoltage() >= 0.0) {
-        mainWindow.webContents.send("ipc-power-supply-values", [
+  setInterval(async () => {
+    Object.keys(powerSupplies).forEach((ps) => {
+      if ((await powerSupplies[ps].getVoltage()) >= 0.0) {
+        mainWindow.webContents.send('ipc-power-supply-values', [
           ps,
           await powerSupplies[ps].getVoltage(),
           await powerSupplies[ps].getAmperage(),
         ]);
       }
-    }
-  },500);
-
-  // Remove this if your app does not use auto updates
-  // eslint-disable-next-line
-  new AppUpdater();
+    });
+  }, 500);
 };
 
 /**

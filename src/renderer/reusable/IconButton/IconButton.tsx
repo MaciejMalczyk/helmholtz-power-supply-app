@@ -1,69 +1,81 @@
-import React, { createRef, useEffect, RefObject } from 'react';
-import './IconButton.css'
+import React, { useRef, useEffect } from 'react';
+import './IconButton.css';
 
-const IconButton = ( props: {
-  icon: string,
-  width: number,
-  height: number,
-  onclick: () => void,
-  color: string,
-  onMouseColor: string,
-  enableColor: string,
-  enableSignal: boolean,
-  enabled: boolean,
-}) => {
+interface IconButtonInterface {
+  icon: string;
+  width: number;
+  height: number;
+  onclick: () => void;
+  color: string;
+  onMouseColor: string;
+  enableColor: string;
+  enableSignal: boolean;
+  enabled: boolean;
+}
 
-  const IconButtonRef: RefObject<HTMLDivElement> = createRef();
-  const IconButtonIconRef: RefObject<HTMLDivElement> = createRef();
+function IconButton({
+  icon,
+  width,
+  height,
+  onclick,
+  color,
+  onMouseColor,
+  enableColor,
+  enableSignal,
+  enabled,
+}: IconButtonInterface) {
+  const IconButtonRef = useRef<HTMLDivElement>(null);
+  const IconButtonIconRef = useRef<HTMLDivElement>(null);
 
-  useEffect(()=>{
-    if (props.width) {
-      IconButtonRef.current!.style.width = `${props.width}px`;
+  useEffect(() => {
+    if (width) {
+      IconButtonRef.current!.style.width = `${width}px`;
     }
-    if (props.height) {
-      IconButtonRef.current!.style.height = `${props.height}px`;
+    if (height) {
+      IconButtonRef.current!.style.height = `${height}px`;
     }
-    if (props.icon) {
-      IconButtonIconRef.current!.setAttribute("style", `
-        -webkit-mask: url(${props.icon}) no-repeat center / contain;
+    if (icon) {
+      IconButtonIconRef.current!.setAttribute(
+        'style',
+        `
+        -webkit-mask: url(${icon}) no-repeat center / contain;
         height: 90%;
         width: 90%;
         margin: auto;
         transition: background-color 0.5s;
-      `);
+      `,
+      );
     }
-    if (props.enabled) {
+    if (enabled) {
       IconButtonRef.current!.onclick = () => {
-        props.onclick!();
-      }
-      IconButtonRef.current!.style.backgroundColor = "white";
-      if (props.enableSignal) {
-        IconButtonIconRef.current!.style.backgroundColor = props.enableColor|| "red";
-        IconButtonRef.current!.onmouseover = () => {}
-        IconButtonRef.current!.onmouseleave = () => {}
+        onclick!();
+      };
+      IconButtonRef.current!.style.backgroundColor = 'white';
+      if (enableSignal) {
+        IconButtonIconRef.current!.style.backgroundColor = enableColor || 'red';
+        IconButtonRef.current!.onmouseover = () => {};
+        IconButtonRef.current!.onmouseleave = () => {};
       } else {
-        IconButtonIconRef.current!.style.backgroundColor = props.color || "#333333";
+        IconButtonIconRef.current!.style.backgroundColor = color || '#333333';
         IconButtonRef.current!.onmouseover = () => {
-          IconButtonIconRef.current!.style.backgroundColor = props.onMouseColor || "red";
-        }
+          IconButtonIconRef.current!.style.backgroundColor =
+            onMouseColor || 'red';
+        };
         IconButtonRef.current!.onmouseleave = () => {
-          IconButtonIconRef.current!.style.backgroundColor = props.color || "#333333";
-        }
+          IconButtonIconRef.current!.style.backgroundColor = color || '#333333';
+        };
       }
     } else {
-      IconButtonIconRef.current!.style.backgroundColor = props.color;
-      IconButtonRef.current!.style.backgroundColor = "#444444";
+      IconButtonIconRef.current!.style.backgroundColor = color!;
+      IconButtonRef.current!.style.backgroundColor = '#444444';
     }
-
-  })
+  });
 
   return (
     <div className="IconButton" ref={IconButtonRef}>
-      <div className="IconButtonIcon" ref={IconButtonIconRef}>
-      </div>
+      <div className="IconButtonIcon" ref={IconButtonIconRef} />
     </div>
-  )
+  );
 }
-
 
 export default IconButton;

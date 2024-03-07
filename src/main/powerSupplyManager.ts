@@ -10,7 +10,9 @@ class powerSupplyManager {
 
   private async sendScpiMsg(command: string) {
     try {
-      const { stdout, stderr } = await exec(`lxi scpi -a ${this.ipAddress} ${command}`);
+      const { stdout, stderr } = await exec(
+        `lxi scpi -a ${this.ipAddress} ${command}`,
+      );
       if (stderr) {
         return -1;
       }
@@ -32,35 +34,33 @@ class powerSupplyManager {
 
   async getEnabled() {
     const res = await this.sendScpiMsg(`":OUTP?"`);
-    if (res === "OFF\n") {
+    if (res === 'OFF\n') {
       return false;
-    } else if (res === "ON\n") {
-      return true;
-    } else {
-      return res;
     }
+    if (res === 'ON\n') {
+      return true;
+    }
+    return res;
   }
 
   async setVoltage(voltage: number) {
     const range = await this.sendScpiMsg(`":OUTP:RANG?"`);
-    const maxVoltage = parseInt(range.slice(0,2));
+    const maxVoltage = parseInt(range.slice(0, 2), 10);
     if (voltage <= maxVoltage) {
       await this.sendScpiMsg(`":VOLT ${voltage}"`);
-      return parseFloat(await this.sendScpiMsg(`":VOLT?"`));
-    } else {
-      return false;
+      return parseFloat(await this.sendScpiMsg(`":VOLT?"`), 10);
     }
+    return false;
   }
 
   async setAmperage(amperage: number) {
     const range = await this.sendScpiMsg(`":OUTP:RANG?"`);
-    const maxAmperage = parseInt(range.slice(4,6).replace("A",""));
+    const maxAmperage = parseInt(range.slice(4, 6).replace('A', ''), 10);
     if (amperage <= maxAmperage) {
       await this.sendScpiMsg(`":CURR ${amperage}"`);
-      return parseFloat(await this.sendScpiMsg(`":CURR?"`));
-    } else {
-      return false;
+      return parseFloat(await this.sendScpiMsg(`":CURR?"`), 10);
     }
+    return false;
   }
 
   async getSetVoltage() {
@@ -76,23 +76,20 @@ class powerSupplyManager {
   async enable() {
     await this.sendScpiMsg(`":OUTP ON"`);
     const res = await this.sendScpiMsg(`":OUTP?"`);
-    if (res === "ON\n") {
+    if (res === 'ON\n') {
       return true;
-    } else {
-      return false;
     }
+    return false;
   }
 
   async disable() {
     await this.sendScpiMsg(`":OUTP OFF"`);
     const res = await this.sendScpiMsg(`":OUTP?"`);
-    if (res === "OFF\n") {
+    if (res === 'OFF\n') {
       return true;
-    } else {
-      return false;
     }
+    return false;
   }
-
 }
 
 export default powerSupplyManager;

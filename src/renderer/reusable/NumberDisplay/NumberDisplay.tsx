@@ -1,42 +1,52 @@
-import React, { createRef, useEffect, RefObject } from 'react';
-import './NumberDisplay.css'
+import React, { useRef, useEffect } from 'react';
+import './NumberDisplay.css';
 
-const NumberDisplay = ( props: {
-  value: number, color: string, unit: string, width: number, height: number
-}) => {
+interface NumberDisplayInterface {
+  value: number;
+  color: string;
+  unit: string;
+  width: number;
+  height: number;
+}
 
-  const NumberDisplayRef: RefObject<HTMLDivElement> = createRef();
-  const NumberDisplayValueRef: RefObject<HTMLDivElement> = createRef();
-  const NumberDisplayUnitRef: RefObject<HTMLDivElement> = createRef();
+function NumberDisplay({
+  value,
+  color,
+  unit,
+  width,
+  height,
+}: NumberDisplayInterface) {
+  const NumberDisplayRef = useRef<HTMLDivElement>(null);
+  const NumberDisplayValueRef = useRef<HTMLDivElement>(null);
+  const NumberDisplayUnitRef = useRef<HTMLDivElement>(null);
 
-  useEffect(()=>{
-    if (props.value !== null) {
-      NumberDisplayValueRef.current!.innerText = `${props.value}`;
+  useEffect(() => {
+    if (value !== null) {
+      NumberDisplayValueRef.current!.innerText = `${value}`;
     }
-    if (props.color) {
-      NumberDisplayRef.current!.style.backgroundColor = props.color;
+    if (color) {
+      NumberDisplayRef.current!.style.backgroundColor = color;
     }
-    if (props.unit) {
-      NumberDisplayUnitRef.current!.innerText = `${props.unit}`;
+    if (unit) {
+      NumberDisplayUnitRef.current!.innerText = `${unit}`;
     }
-    if (props.width) {
-      NumberDisplayRef.current!.style.width = `${props.width}px`;
+    if (width) {
+      NumberDisplayRef.current!.style.width = `${width}px`;
     }
-    if (props.height) {
-      NumberDisplayRef.current!.style.height = `${props.height}px`;
+    if (height) {
+      NumberDisplayRef.current!.style.height = `${height}px`;
     }
-    NumberDisplayRef.current!.style.fontSize = `${((props.height/2 > 12) ? props.height/2 : 12)}px`;
-  })
+    NumberDisplayRef.current!.style.fontSize = `${
+      height / 2 > 12 ? height / 2 : 12
+    }px`;
+  });
 
   return (
     <div className="NumberDisplay" ref={NumberDisplayRef}>
-      <div className="NumberDisplayValue" ref={NumberDisplayValueRef}>
-      </div>
-      <div className="NumberDisplayUnit" ref={NumberDisplayUnitRef}>
-      </div>
+      <div className="NumberDisplayValue" ref={NumberDisplayValueRef} />
+      <div className="NumberDisplayUnit" ref={NumberDisplayUnitRef} />
     </div>
-  )
+  );
 }
-
 
 export default NumberDisplay;
