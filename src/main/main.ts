@@ -47,7 +47,8 @@ async function handleInit() {
   }
 
   const returnData: ReturnDataInterface = {};
-  Object.keys(powerSupplies).forEach((ps) => {
+
+  Object.keys(powerSupplies).forEach(async (ps) => {
     if ((await powerSupplies[ps].getEnabled()) === -1) {
       returnData[ps] = {
         initVoltage: 0,
@@ -148,7 +149,7 @@ const createWindow = async () => {
   });
 
   setInterval(async () => {
-    Object.keys(powerSupplies).forEach((ps) => {
+    Object.keys(powerSupplies).forEach(async (ps) => {
       if ((await powerSupplies[ps].getVoltage()) >= 0.0) {
         mainWindow.webContents.send('ipc-power-supply-values', [
           ps,
