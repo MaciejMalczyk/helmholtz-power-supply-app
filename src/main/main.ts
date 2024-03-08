@@ -48,7 +48,7 @@ async function handleInit() {
 
   const returnData: ReturnDataInterface = {};
 
-  Object.keys(powerSupplies).forEach(async (ps) => {
+  for (const ps of Object.keys(powerSupplies)) {
     if ((await powerSupplies[ps].getEnabled()) === -1) {
       returnData[ps] = {
         initVoltage: 0,
@@ -64,7 +64,7 @@ async function handleInit() {
         initVisible: true,
       };
     }
-  });
+  };
   return returnData;
 }
 
@@ -149,7 +149,7 @@ const createWindow = async () => {
   });
 
   setInterval(async () => {
-    Object.keys(powerSupplies).forEach(async (ps) => {
+    for (const ps of Object.keys(powerSupplies)) {
       if ((await powerSupplies[ps].getVoltage()) >= 0.0) {
         mainWindow.webContents.send('ipc-power-supply-values', [
           ps,
@@ -157,7 +157,7 @@ const createWindow = async () => {
           await powerSupplies[ps].getAmperage(),
         ]);
       }
-    });
+    };
   }, 500);
 };
 
