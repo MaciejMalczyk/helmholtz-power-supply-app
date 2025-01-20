@@ -12,6 +12,8 @@ import path from 'path';
 import { app, BrowserWindow, shell, ipcMain } from 'electron';
 import { resolveHtmlPath } from './util';
 import powerSupplyManager from './powerSupplyManager';
+// import MenuBuilder from './menu';
+
 
 let mainWindow: BrowserWindow | null = null;
 
@@ -133,6 +135,7 @@ const createWindow = async () => {
       mainWindow.show();
     }
   });
+
 
   mainWindow.on('closed', () => {
     mainWindow = null;
