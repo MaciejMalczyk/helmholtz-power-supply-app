@@ -23,6 +23,9 @@ const Store: StoreInterface = {
   midVisible: new State(false),
   largeVisible: new State(false),
   smallVisible: new State(false),
+  midSend: new Event("midSend"),
+  largeSend: new Event("largeSend"),
+  smallSend: new Event("smallSend")
 };
 
 export default Store;

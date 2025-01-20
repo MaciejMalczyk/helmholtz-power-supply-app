@@ -1,4 +1,4 @@
-const util = require('node:util');
+import util from "node:util";
 const exec = util.promisify(require('child_process').exec);
 
 class powerSupplyManager {
@@ -20,7 +20,6 @@ class powerSupplyManager {
     } catch {
       return -1;
     }
-    return parseFloat(res);
   }
 
   async getVoltage() {
@@ -49,7 +48,7 @@ class powerSupplyManager {
     const maxVoltage = parseInt(range.slice(0, 2), 10);
     if (voltage <= maxVoltage) {
       await this.sendScpiMsg(`":VOLT ${voltage}"`);
-      return parseFloat(await this.sendScpiMsg(`":VOLT?"`), 10);
+      return parseFloat(await this.sendScpiMsg(`":VOLT?"`));
     }
     return false;
   }
@@ -59,7 +58,7 @@ class powerSupplyManager {
     const maxAmperage = parseInt(range.slice(4, 6).replace('A', ''), 10);
     if (amperage <= maxAmperage) {
       await this.sendScpiMsg(`":CURR ${amperage}"`);
-      return parseFloat(await this.sendScpiMsg(`":CURR?"`), 10);
+      return parseFloat(await this.sendScpiMsg(`":CURR?"`));
     }
     return false;
   }

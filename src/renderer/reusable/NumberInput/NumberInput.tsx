@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import State from '../../store/State';
 import './NumberInput.css';
 
@@ -28,22 +28,21 @@ function NumberInput({
   const NumberInputUnitRef = useRef<HTMLDivElement>(null);
 
   const [valueInput, setValueInput] = useState(0.0);
-  const [valueChanged, setValueChanged] = useState(false);
+  const [valueChanged, _setValueChanged] = useState(false);
 
-  function eventListenerFunction() {
+  function loadValueFromStore() {
     setValueInput(param!.value);
     console.log(param);
   }
 
   useEffect(() => {
-    window.addEventListener(param!.event, eventListenerFunction);
+    // load value from Store
+    window.addEventListener(param!.event, loadValueFromStore);
 
     if (valueChanged == false) {
-      console.log(valueChanged);
       NumberInputRef.current!.style.backgroundColor = color;
       NumberInputValueRef.current!.style.backgroundColor = color;
     } else {
-      console.log(valueChanged);
       NumberInputRef.current!.style.backgroundColor = "pink";
       NumberInputValueRef.current!.style.backgroundColor = "pink";
     }
@@ -64,7 +63,7 @@ function NumberInput({
     }
 
     return () => {
-      window.removeEventListener(param!.event, eventListenerFunction);
+      window.removeEventListener(param!.event, loadValueFromStore);
     }
   });
 
@@ -91,7 +90,7 @@ function NumberInput({
               if (el.target.value.toString().length < 4 + stepDigits) {
                 setValueInput(Number(el.target.value));
                 param!.setValue(el.target.value);
-                setValueChanged(true);
+//                 setValueChanged(true);
               }
             }
           }

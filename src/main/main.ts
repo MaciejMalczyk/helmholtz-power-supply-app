@@ -12,6 +12,7 @@ import path from 'path';
 import { app, BrowserWindow, shell, ipcMain } from 'electron';
 import { resolveHtmlPath } from './util';
 import powerSupplyManager from './powerSupplyManager';
+import { devTools } from 'electron-debug';
 // import MenuBuilder from './menu';
 
 
@@ -122,6 +123,11 @@ const createWindow = async () => {
         : path.join(__dirname, '../../.erb/dll/preload.js'),
     },
   });
+
+  //open devtools
+  let devtools = new BrowserWindow();
+  mainWindow.webContents.setDevToolsWebContents(devtools.webContents);
+  mainWindow.webContents.openDevTools({ mode: 'detach' });
 
   mainWindow.loadURL(resolveHtmlPath('index.html'));
 

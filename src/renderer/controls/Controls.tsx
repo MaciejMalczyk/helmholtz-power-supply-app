@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import IconBox from '../reusable/IconBox/IconBox';
 import NumberInput from '../reusable/NumberInput/NumberInput';
 import IconButton from '../reusable/IconButton/IconButton';
@@ -76,6 +76,7 @@ function Controls() {
             max={10}
             step={0.0001}
             param={Store.midAmperageValueSend}
+            sendEvent="midSend"
           />
           <NumberInput
             width={160}
@@ -83,6 +84,7 @@ function Controls() {
             step={0.0001}
             max={10}
             param={Store.largeAmperageValueSend}
+            sendEvent="largeSend"
           />
           <NumberInput
             width={160}
@@ -90,6 +92,7 @@ function Controls() {
             step={0.0001}
             max={10}
             param={Store.smallAmperageValueSend}
+            sendEvent="smallSend"
           />
         </div>
         <div className="ControlsButtons">

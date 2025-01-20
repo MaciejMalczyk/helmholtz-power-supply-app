@@ -4,22 +4,24 @@ import Coils from './coils/Coils';
 import Controls from './controls/Controls';
 import Store from './store/Store';
 
-window.ipc_power_supplies?.onPowerSupplyValues(
-  (value: [string, number, number]) => {
-    if (value[0] === 'mid') {
-      Store.midVoltageValue.setValue(value[1]);
-      Store.midAmperageValue.setValue(value[2]);
-    } else if (value[0] === 'large') {
-      Store.largeVoltageValue.setValue(value[1]);
-      Store.largeAmperageValue.setValue(value[2]);
-    } else if (value[0] === 'small') {
-      Store.smallVoltageValue.setValue(value[1]);
-      Store.smallAmperageValue.setValue(value[2]);
-    }
-  },
-);
-
 function MainGrid() {
+
+  window.ipc_power_supplies?.onPowerSupplyValues(
+    (value: [string, number, number]) => {
+      if (value[0] === 'mid') {
+        Store.midVoltageValue.setValue(value[1]);
+        Store.midAmperageValue.setValue(value[2]);
+      } else if (value[0] === 'large') {
+        Store.largeVoltageValue.setValue(value[1]);
+        Store.largeAmperageValue.setValue(value[2]);
+      } else if (value[0] === 'small') {
+        Store.smallVoltageValue.setValue(value[1]);
+        Store.smallAmperageValue.setValue(value[2]);
+      }
+    },
+  );
+
+
   (async () => {
     const res = await window.ipc_power_supplies?.init('');
     Object.keys(res).forEach((ps) => {
