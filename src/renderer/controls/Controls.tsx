@@ -18,23 +18,29 @@ function Controls() {
   const [largeVisible, setLargeVisible] = useState(false);
 
   useEffect(() => {
-    window.addEventListener(Store.midEnabled.event, () => {
+    window.addEventListener(Store.midEnabled.event, function listener() {
       setMidStatus(Store.midEnabled.value);
+      //this.removeEventListener(Store.midEnabled.event, listener);
     });
-    window.addEventListener(Store.midVisible.event, () => {
+    window.addEventListener(Store.midVisible.event, function listener() {
       setMidVisible(Store.midVisible.value);
+      //this.removeEventListener(Store.midVisible.event, listener);
     });
-    window.addEventListener(Store.largeEnabled.event, () => {
+    window.addEventListener(Store.largeEnabled.event, function listener() {
       setLargeStatus(Store.largeEnabled.value);
+      //this.removeEventListener(Store.largeEnabled.event, listener);
     });
-    window.addEventListener(Store.largeVisible.event, () => {
+    window.addEventListener(Store.largeVisible.event, function listener() {
       setLargeVisible(Store.largeVisible.value);
+      //this.removeEventListener(Store.largeVisible.event, listener);
     });
-    window.addEventListener(Store.smallEnabled.event, () => {
+    window.addEventListener(Store.smallEnabled.event, function listener() {
       setSmallStatus(Store.smallEnabled.value);
+      //this.removeEventListener(Store.smallEnabled.event, listener);
     });
-    window.addEventListener(Store.smallVisible.event, () => {
+    window.addEventListener(Store.smallVisible.event, function listener() {
       setSmallVisible(Store.smallVisible.value);
+      //this.removeEventListener(Store.smallVisible.event, listener);
     });
   });
 

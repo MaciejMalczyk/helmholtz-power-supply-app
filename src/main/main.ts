@@ -22,6 +22,7 @@ const powerSupplies = {
 };
 
 async function handlePowerSuppliesControl(e, data) {
+  console.log(data);
   if (data[1] === 'enable') {
     powerSupplies[data[0]].enable();
     return powerSupplies[data[0]].getEnabled();

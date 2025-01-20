@@ -18,7 +18,7 @@ body {
   display: flex;
   justify-content: center;
   margin: min(26px);
-  gap: 80px;
+  gap: 64px;
 }
 
 .MainGridCoils {
@@ -27,6 +27,5 @@ body {
 }
 
 .MainGridControls {
-  min-width: 512px;
   min-height: 488px;
 }

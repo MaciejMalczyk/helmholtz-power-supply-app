@@ -28,14 +28,24 @@ function NumberInput({
   const NumberInputUnitRef = useRef<HTMLDivElement>(null);
 
   const [valueInput, setValueInput] = useState(0.0);
+  const [valueChanged, setValueChanged] = useState(false);
+
+  function eventListenerFunction() {
+    setValueInput(param!.value);
+    console.log(param);
+  }
 
   useEffect(() => {
-    window.addEventListener(param!.event, () => {
-      setValueInput(param!.value);
-    });
+    window.addEventListener(param!.event, eventListenerFunction);
 
-    if (color) {
+    if (valueChanged == false) {
+      console.log(valueChanged);
       NumberInputRef.current!.style.backgroundColor = color;
+      NumberInputValueRef.current!.style.backgroundColor = color;
+    } else {
+      console.log(valueChanged);
+      NumberInputRef.current!.style.backgroundColor = "pink";
+      NumberInputValueRef.current!.style.backgroundColor = "pink";
     }
     if (unit) {
       NumberInputUnitRef.current!.innerText = `${unit}`;
@@ -51,6 +61,10 @@ function NumberInput({
       NumberInputValueRef.current!.style.fontSize = `${
         height / 2.5 > 12 ? height / 2.5 : 12
       }px`;
+    }
+
+    return () => {
+      window.removeEventListener(param!.event, eventListenerFunction);
     }
   });
 
@@ -77,6 +91,7 @@ function NumberInput({
               if (el.target.value.toString().length < 4 + stepDigits) {
                 setValueInput(Number(el.target.value));
                 param!.setValue(el.target.value);
+                setValueChanged(true);
               }
             }
           }

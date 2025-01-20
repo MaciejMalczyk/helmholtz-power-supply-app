@@ -20,6 +20,7 @@ class powerSupplyManager {
     } catch {
       return -1;
     }
+    return parseFloat(res);
   }
 
   async getVoltage() {

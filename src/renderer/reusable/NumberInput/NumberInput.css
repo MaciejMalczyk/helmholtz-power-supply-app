@@ -5,6 +5,7 @@
   min-width: 80px;
   min-height: 80px;
   font-family: JosefinSans-Bold;
+  transition: background-color 0.5s;
 }
 .NumberInputValue {
   margin: auto auto auto 8%;
@@ -12,6 +13,7 @@
   font-family: JosefinSans-Bold;
   text-align: center;
   width: 80%;
+  transition: background-color 0.5s;
 }
 .NumberInputValue::-webkit-inner-spin-button {
   -webkit-appearance: none;
